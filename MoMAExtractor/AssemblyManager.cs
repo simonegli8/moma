@@ -339,14 +339,10 @@ namespace MoMAExtractor
 				assemblies.Add(Path.Combine(path45, "System.IdentityModel.dll"));
 				assemblies.Add(Path.Combine(path45, "System.IdentityModel.Selectors.dll"));
 				assemblies.Add(Path.Combine(path45, "System.IdentityModel.Services.dll"));
-
 				assemblies.Add(Path.Combine(path45, "System.IO.dll"));
 				assemblies.Add(Path.Combine(path45, "System.IO.Log.dll"));
 				assemblies.Add(Path.Combine(path45, "System.IO.Compression.dll"));
-
 				assemblies.Add(Path.Combine(path45, "System.IO.Compression.FileSystem.dll"));
-
-
 				assemblies.Add(Path.Combine(path45, "System.Linq.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Linq.Expressions.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Linq.Parallel.dll"));
@@ -375,7 +371,6 @@ namespace MoMAExtractor
 				assemblies.Add(Path.Combine(path45, "System.Resources.ResourceManager.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Printing.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Runtime.dll"));
-
 				assemblies.Add(Path.Combine(path45, "System.Runtime.Caching.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Runtime.DurableInstancing.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Runtime.Extensions.dll"));
@@ -404,7 +399,6 @@ namespace MoMAExtractor
 				assemblies.Add(Path.Combine(path45, "System.ServiceModel.Primitives.dll"));
 				assemblies.Add(Path.Combine(path45, "System.ServiceModel.Routing.dll"));
 				assemblies.Add(Path.Combine(path45, "System.ServiceModel.Security.dll"));
-
 				assemblies.Add(Path.Combine(path45, "System.ServiceModel.ServiceMoniker40.dll"));
 				assemblies.Add(Path.Combine(path45, "System.ServiceModel.WasHosting.dll"));
 				assemblies.Add(Path.Combine(path45, "System.ServiceModel.Web.dll"));
@@ -440,7 +434,6 @@ namespace MoMAExtractor
 				assemblies.Add(Path.Combine(path45, "System.WorkflowServices.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Xaml.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Xaml.Hosting.dll"));
-
 				assemblies.Add(Path.Combine(path45, "System.XML.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Xml.Linq.dll"));
 				assemblies.Add(Path.Combine(path45, "System.Xml.ReaderWriter.dll"));
