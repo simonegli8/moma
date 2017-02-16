@@ -7,10 +7,10 @@ namespace MoMAExtractor
 {
 	static class AssemblyManager
 	{
-		private static string mono_20 = @"C:\Program Files (x86)\Mono\lib\mono\2.0";
-		private static string mono_30 = @"C:\Program Files (x86)\Mono\lib\mono\3.0";
-		private static string mono_35 = @"C:\Program Files (x86)\Mono\lib\mono\3.5";
-		private static string mono_40 = @"C:\Program Files (x86)\Mono\lib\mono\4.0";
+		private static string mono_20 = @"C:\Program Files (x86)\Mono\lib\mono\2.0-api";
+		private static string mono_30 = @"C:\Program Files (x86)\Mono\lib\mono\3.0-api";
+		private static string mono_35 = @"C:\Program Files (x86)\Mono\lib\mono\3.5-api";
+		private static string mono_40 = @"C:\Program Files (x86)\Mono\lib\mono\4.0-api";
 		private static string mono_45 = @"C:\Program Files (x86)\Mono\lib\mono\4.5-api";
 		private static string mono_droid = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\MonoDroid\v2.0";
 
