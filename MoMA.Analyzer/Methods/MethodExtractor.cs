@@ -143,33 +143,9 @@ namespace MoMA.Analyzer
 			return true;
 		}
 
-		public class TypeDefinitionCache: KeyedCollection<string, TypeDefinition> {
-			protected override string GetKeyForItem(TypeDefinition item) => item.FullName;
-
-			public void Add(AssemblyDefinition a) {
-				var defs = a.Modules.SelectMany(m => m.Types);
-				foreach (var def in defs) Add(def);
-			}
-
-			public TypeDefinition FindOrAdd(TypeReference reference) {
-				TypeDefinition def = null;
-				if (Dictionary != null) {
-					if (!Dictionary.TryGetValue(reference.FullName, out def)) Add(reference.Module.Assembly);
-					if (!Dictionary.TryGetValue(reference.FullName, out def)) throw new NotSupportedException();
-				} else {
-					if (!Contains(reference.FullName)) Add(reference.Module.Assembly);
-					if (!Contains(reference.FullName)) throw new NotSupportedException();
-					def = this[reference.FullName];
-				}
-				return def;
-			}
-		}
-
-		static TypeDefinitionCache Cache = new TypeDefinitionCache();
 		private static TypeDefinition TypeReferenceToDefinition (TypeReference type)
 		{
-			if (type.Module.Types.Count < 8) return type.Module.Types.FirstOrDefault(def => def.FullName == type.FullName);
-			else return Cache.FindOrAdd(type);
+			return type.Module.GetType(type.FullName);
 		}
 		
 		// Is this attribute a MonoTODO that we want to report in MoMA?
