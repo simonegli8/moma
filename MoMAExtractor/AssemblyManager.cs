@@ -469,14 +469,14 @@ namespace MoMAExtractor
 			if (use_mobile) {
 				assemblies.Add (Path.Combine (pathmobile, "mscorlib.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Core.dll"));
-				//assemblies.Add (Path.Combine (pathmobile, "System.Device.dll"));
+				assemblies.Add (Path.Combine (pathmobile, "System.Device.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Net.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Observable.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Runtime.Serialization.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Servicemodel.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Servicemodel.Web.dll"));
-				//assemblies.Add (Path.Combine (pathmobile, "System.Windows.dll"));
+				assemblies.Add (Path.Combine (pathmobile, "System.Windows.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Xml.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Xml.Linq.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Xml.Serialization.dll"));
