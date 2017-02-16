@@ -26,6 +26,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using Mono.Cecil;
 using Mono.Cecil.Cil;
@@ -41,7 +42,7 @@ namespace MoMA.Analyzer
 			AssemblyDefinition ad;
 			try {
 				ad = AssemblyDefinition.ReadAssembly(assembly);
-				Console.WriteLine($"Analyzing {assembly}...");
+				Console.WriteLine($"Analyzing {Path.GetFileName(assembly)}...");
 			} catch (Exception ex) {
 				Console.WriteLine($"Failed to load assembly: {assembly};\r\n{ex.Message}");
 				return;
