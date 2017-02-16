@@ -150,7 +150,7 @@ namespace MoMA.Analyzer
 				foreach (var def in defs) Add(def);
 			}
 
-			public TypeDefinition Find(TypeReference reference) {
+			public TypeDefinition FindOrAdd(TypeReference reference) {
 				TypeDefinition def = null;
 				if (Dictionary != null) {
 					if (!Dictionary.TryGetValue(reference.FullName, out def)) Add(reference.Module.Assembly);
@@ -167,8 +167,8 @@ namespace MoMA.Analyzer
 		static TypeDefinitionCache Cache = new TypeDefinitionCache();
 		private static TypeDefinition TypeReferenceToDefinition (TypeReference type)
 		{
-			if (type.Module.Types.Count < 10) return type.Module.Types.FirstOrDefault(def => def.FullName == type.FullName);
-			else return Cache.Find(type);
+			if (type.Module.Types.Count < 8) return type.Module.Types.FirstOrDefault(def => def.FullName == type.FullName);
+			else return Cache.FindOrAdd(type);
 		}
 		
 		// Is this attribute a MonoTODO that we want to report in MoMA?
