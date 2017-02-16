@@ -38,8 +38,14 @@ namespace MoMA.Analyzer
 		// Leave any of the SortedList parameters null that you aren't interested in
 		public static void ExtractFromAssembly (string assembly, SortedList<string, Method> allMethods, SortedList<string, Method> throwsNotImplementedMethods, SortedList<string, Method> monoTodoMethods)
 		{
-			AssemblyDefinition ad = AssemblyDefinition.ReadAssembly (assembly);
-			
+			AssemblyDefinition ad;
+			try {
+				ad = AssemblyDefinition.ReadAssembly(assembly);
+				Console.WriteLine($"Analyzing {assembly}...");
+			} catch (Exception ex) {
+				Console.WriteLine($"Failed to load assembly: {assembly};\r\n{ex.Message}");
+				return;
+			}
 			//Gets all types of the MainModule of the assembly
 			foreach (TypeDefinition type in ad.MainModule.Types) {
 				if (type.Name != "<Module>") {
