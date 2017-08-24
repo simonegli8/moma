@@ -35,6 +35,8 @@ namespace MoMAExtractor
 
 			string output_path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Definitions");
 
+			Console.Clear();
+
 			// Get the assemblies we want to examine
 			List<string> mono_assemblies = AssemblyManager.GetAssemblies(true, use_20, use_30, use_35, use_40, use_45, use_451, use_452, use_46, use_461, use_462, use_47, use_mobile, use_design, mwf_only);
 			List<string> ms_assemblies = AssemblyManager.GetAssemblies(false, use_20, use_30, use_35, use_40, use_45, use_451, use_452, use_46, use_461, use_462, use_47, use_mobile, use_design, mwf_only);
@@ -55,9 +57,6 @@ namespace MoMAExtractor
 				case Versions.Mobile: displayVersion = "Mobile"; break;
 				default: displayVersion = version.ToString(); break;
 			}
-			Console.CursorTop = 0;
-			Console.WriteLine();
-			Console.WriteLine($"Analyzing for .NET {displayVersion}...");
 
 			var procInfo = new ProcessStartInfo(MonoBin, "-V") {
 				RedirectStandardOutput = true,
@@ -68,6 +67,10 @@ namespace MoMAExtractor
 			var res = monoproc.StandardOutput.ReadToEnd();
 			var monoVersion = Regex.Match(res, "[0-9.]+").Value;
 			var monoName = $"{monoVersion}-{displayVersion}-defs";
+
+			Console.CursorTop = 0;
+			Console.WriteLine();
+			Console.WriteLine($"Analyzing for .Mono {monoVersion} ({displayVersion} Profile)...");
 
 			output_path = Path.Combine(output_path, monoName);
 

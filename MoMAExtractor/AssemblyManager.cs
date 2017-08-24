@@ -8,10 +8,15 @@ using System.Reflection;
 
 namespace MoMAExtractor
 {
-	static class AssemblyManager
-	{
-		private static string monoRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Mono\lib\mono\");
-		private static string netRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Reference Assemblies\Microsoft\Framework\.NETFramework\");
+	static class AssemblyManager {
+
+		class FileNameComparer : EqualityComparer<string> {
+			public override bool Equals(string x, string y) => string.Equals(Path.GetFileName(x), Path.GetFileName(y), StringComparison.OrdinalIgnoreCase);
+			public override int GetHashCode(string obj) => Path.GetFileName(obj).GetHashCode();
+		}
+
+		private static string MonoRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Mono\lib\mono\");
+		private static string NetRoot = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), @"Reference Assemblies\Microsoft\Framework\.NETFramework\");
 
 		private static string mono_20 = @"C:\Program Files (x86)\Mono\lib\mono\2.0-api";
 		private static string mono_30 = @"C:\Program Files (x86)\Mono\lib\mono\3.0-api";
@@ -33,16 +38,19 @@ namespace MoMAExtractor
 		private static string net_45 = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.5";
 		private static string net_wp7 = @"C:\Program Files (x86)\Reference Assemblies\Microsoft\Framework\Silverlight\v4.0\Profile\WindowsPhone";
 
-		public static void OpenFrameworkList(List<string> assemblies, bool is_mono, string version, bool use_design = true) {
-			var listFile = Path.Combine(netRoot, $@"v{version}\RedistList\FrameworkList.xml");
+		public static List<string> OpenFrameworkList(bool is_mono, string version, bool use_design = true) {
+			var assemblies = new List<string>();
+			var listFile = Path.Combine(NetRoot, $@"v{version}\RedistList\FrameworkList.xml");
 			if (!File.Exists(listFile)) throw new FileNotFoundException($"FrameworkList {listFile} not found.");
 			var list = XElement.Load(listFile);
-			var root = is_mono ? $@"{monoRoot}{version}-api\" : $@"{netRoot}v{version}\";
+			var monoRoot = $@"{MonoRoot}{version}-api\";
+			var winRoot = $@"{NetRoot}v{version}\";
+			var root = is_mono ? monoRoot : winRoot;
 			foreach (var file in list.Elements()) {
 				var name = file.Attribute("AssemblyName").Value;
 				if (use_design || name.EndsWith(".Desing", StringComparison.OrdinalIgnoreCase)) {
 					if (!is_mono) {
-						var assembly = Path.Combine(root, $@"{root}\Facades\{name}.dll");
+						var assembly = Path.Combine(root, $@"{root}Facades\{name}.dll");
 						if (File.Exists(assembly)) {
 							assemblies.Add(assembly);
 							continue;
@@ -51,6 +59,11 @@ namespace MoMAExtractor
 					assemblies.Add(Path.Combine(root, $@"{name}.dll"));
 				}
 			}
+			return assemblies
+				.Distinct()
+				.Union(Directory.EnumerateFiles(monoRoot, "*.dll"), new FileNameComparer())
+				.OrderBy(dll => Path.GetFileName(dll))
+				.ToList();
 		}
 
 		public static List<string> GetAssemblies (bool is_mono, bool use_20, bool use_30, bool use_35, bool use_40, bool use_45, bool use_451, bool use_452, bool use_46, bool use_461, bool use_462, bool use_47, bool use_mobile, bool use_design, bool mwf_only)
@@ -171,7 +184,7 @@ namespace MoMAExtractor
 			// Add 4.0 assemblies
 			if (use_40) {
 
-				OpenFrameworkList(assemblies, is_mono, "4.0", use_design);
+				assemblies = OpenFrameworkList(is_mono, "4.0", use_design);
 				
 				/*
 				assemblies.Add(Path.Combine(path40, "Accessibility.dll"));
@@ -295,7 +308,7 @@ namespace MoMAExtractor
 
 			// Add 4.5 assemblies
 			if (use_45) {
-				OpenFrameworkList(assemblies, is_mono, "4.5", use_design);
+				assemblies = OpenFrameworkList(is_mono, "4.5", use_design);
 
 				/*
 				assemblies.Add(Path.Combine(path45, "Accessibility.dll"));
@@ -504,12 +517,12 @@ namespace MoMAExtractor
 				} */
 			}
 
-			if (use_451) OpenFrameworkList(assemblies, is_mono, "4.5.1", use_design);
-			if (use_452) OpenFrameworkList(assemblies, is_mono, "4.5.2", use_design);
-			if (use_46) OpenFrameworkList(assemblies, is_mono, "4.6", use_design);
-			if (use_461) OpenFrameworkList(assemblies, is_mono, "4.6.1", use_design);
-			if (use_462) OpenFrameworkList(assemblies, is_mono, "4.6.2", use_design);
-			if (use_47) OpenFrameworkList(assemblies, is_mono, "4.7", use_design);
+			if (use_451) assemblies = OpenFrameworkList(is_mono, "4.5.1", use_design);
+			if (use_452) assemblies = OpenFrameworkList(is_mono, "4.5.2", use_design);
+			if (use_46) assemblies = OpenFrameworkList(is_mono, "4.6", use_design);
+			if (use_461) assemblies = OpenFrameworkList(is_mono, "4.6.1", use_design);
+			if (use_462) assemblies = OpenFrameworkList(is_mono, "4.6.2", use_design);
+			if (use_47) assemblies = OpenFrameworkList(is_mono, "4.7", use_design);
 
 			if (use_mobile) {
 				assemblies.Add (Path.Combine (pathmobile, "mscorlib.dll"));
@@ -526,15 +539,12 @@ namespace MoMAExtractor
 				assemblies.Add (Path.Combine (pathmobile, "System.Xml.Linq.dll"));
 				assemblies.Add (Path.Combine (pathmobile, "System.Xml.Serialization.dll"));
 			}
-
 			Console.CursorTop = 9;
 			for (int i = assemblies.Count - 1; i >= 0; i--)
-				if (!File.Exists (assemblies[i])) {
-					Console.WriteLine($"{(is_mono ? "Mono" : "MS")} doesn't have: {Path.GetFileName(assemblies[i])}                                                                    ");
-					assemblies.RemoveAt (i);
+				if (!File.Exists(assemblies[i])) {
+					Console.WriteLine($"{(is_mono ? "Mono" : "MS")} doesn't have: {Path.GetFileName(assemblies[i])}");
+					assemblies.RemoveAt(i);
 				}
-
-			assemblies = assemblies.Distinct().ToList();
 
 			return assemblies;
 		}
