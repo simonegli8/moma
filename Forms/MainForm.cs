@@ -262,9 +262,9 @@ namespace MoMA
 			ofd.Multiselect = true;
 			ofd.Filter = "Assemblies (*.exe, *.dll)|*.exe; *.dll|All Files (*.*)|*.*";
 
-			if (ofd.ShowDialog () == DialogResult.OK)
-				foreach (string s in ofd.FileNames)
-					AddAssembly (s);
+			if (ofd.ShowDialog() == DialogResult.OK) {
+				foreach (string s in ofd.FileNames) AddAssembly(s);
+			}
 		}
 
 		private bool ListContainsAssembly (string file)

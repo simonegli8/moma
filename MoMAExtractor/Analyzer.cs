@@ -33,7 +33,7 @@ namespace MoMAExtractor
 			bool use_design = true; // Include *Design namespaces
 			bool mwf_only = version == Versions.WinForms;   // Only do System.Windows.Forms (overrides others)
 
-			string output_path = Path.GetDirectoryName(Application.ExecutablePath);
+			string output_path = Path.Combine(Path.GetDirectoryName(Application.ExecutablePath), "Definitions");
 
 			// Get the assemblies we want to examine
 			List<string> mono_assemblies = AssemblyManager.GetAssemblies(true, use_20, use_30, use_35, use_40, use_45, use_451, use_452, use_46, use_461, use_462, use_47, use_mobile, use_design, mwf_only);
