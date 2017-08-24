@@ -42,9 +42,10 @@ namespace MoMA.Analyzer
 			AssemblyDefinition ad;
 			try {
 				ad = AssemblyDefinition.ReadAssembly(assembly);
-				Console.WriteLine($"Analyzing {Path.GetFileName(assembly)}...");
+				Console.WriteLine($"Analyzing {Path.GetFileName(assembly)}...                                                                                                    ");
 			} catch (Exception ex) {
-				Console.WriteLine($"Failed to load assembly: {assembly};\r\n{ex.Message}");
+				Console.CursorTop = 10;
+				Console.WriteLine($"Failed to load assembly: {assembly};\r\n{ex.Message}                                                                                                  ");
 				return;
 			}
 			//Gets all types of the MainModule of the assembly

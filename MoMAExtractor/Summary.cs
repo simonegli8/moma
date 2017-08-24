@@ -9,11 +9,18 @@ namespace MoMAExtractor
 	class Program2
 	{
 		// Parameters to fiddle with
-		private static bool use_20 = true;
-		private static bool use_30 = true;
-		private static bool use_35 = true;
-		private static bool use_40 = true;
-		private static bool use_45 = true;
+		private static bool use_20 = true;  // Include the 2.0 framework
+		private static bool use_30 = true;  // Include the 3.0 framework
+		private static bool use_35 = true;  // Include the 3.5 framework
+		private static bool use_40 = true;  // Include the 4.0 framework
+		private static bool use_45 = true;  // Include the 4.0 framework
+		private static bool use_451 = true;  // Include the 4.0 framework
+		private static bool use_452 = true;  // Include the 4.0 framework
+		private static bool use_46 = true;  // Include the 4.0 framework
+		private static bool use_461 = true;  // Include the 4.0 framework
+		private static bool use_462 = true;  // Include the 4.0 framework
+		private static bool use_47 = true;  // Include the 4.0 framework
+		private static bool use_mobile = true;
 
 		private static bool use_design = true;
 		private static bool mwf_only = false;
@@ -27,8 +34,8 @@ namespace MoMAExtractor
 			string output_path = Path.GetDirectoryName (Application.ExecutablePath);
 
 			// Get the assemblies we want to examine
-			List<string> mono_assemblies = AssemblyManager.GetAssemblies (true, use_20, use_30, use_35, use_40, use_45, false, use_design, mwf_only);
-			List<string> ms_assemblies = AssemblyManager.GetAssemblies (false, use_20, use_30, use_35, use_40, use_45, false, use_design, mwf_only);
+			List<string> mono_assemblies = AssemblyManager.GetAssemblies(true, use_20, use_30, use_35, use_40, use_45, use_451, use_452, use_46, use_461, use_462, use_47, use_mobile, use_design, mwf_only);
+			List<string> ms_assemblies = AssemblyManager.GetAssemblies(false, use_20, use_30, use_35, use_40, use_45, use_451, use_452, use_46, use_461, use_462, use_47, use_mobile, use_design, mwf_only);
 
 			StreamWriter sw = new StreamWriter (Path.Combine (output_path, "summary.txt"));
 			
